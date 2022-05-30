@@ -15,7 +15,7 @@ p {
 }
 #screen {
     position: relative;
-    border: 2px red solid;
+    border: 2px blue solid;
 }
 
 .bar {
@@ -26,6 +26,7 @@ p {
 }
 
 #ball {
+    position: relative;
     background-color: red;
     width: 10px;
     height: 10px;
@@ -33,9 +34,7 @@ p {
 }
 #bottomBar {
     top:540px;
-    background: blue;
 }
 #topBar {
     top:30px;
-    background: blue;
 }
