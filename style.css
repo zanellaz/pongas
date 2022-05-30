@@ -20,8 +20,8 @@ p {
 
 .bar {
     position: relative;
-    left: 300px;
-    height: 10px;
+    /* left: 300px; */
+    /* height: 10px; */
     background-color: white;
 }
 

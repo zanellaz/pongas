@@ -11,8 +11,8 @@ bars.height = 10
 
 ball.width = 10
 
-bars[0].style = `width:${bars.width}px; height: ${bars.height};`
-bars[1].style = `width:${bars.width}px; height: ${bars.height};`
+topBar.style = `width:${bars.width}px; height: ${bars.height}px;`
+bottomBar.style = `width:${bars.width}px; height: ${bars.height}px;`
 gameScreen.style.width = `${gameScreen.width}px`
 gameScreen.style.height = `${gameScreen.height}px`
 
@@ -51,12 +51,12 @@ const goLeft = {
 const goRight = {
     player1() {
         if (player1.positionX < gameScreen.width - bars.width){
-            player1.positionX += 5
+            player1.positionX += 4
         }
     },
     player2() {
         if (player2.positionX < gameScreen.width - bars.width){
-            player2.positionX += 5
+            player2.positionX += 4
         }
     }
 }
@@ -103,7 +103,12 @@ function randomizeBall() {
 }
 
 function reduceBar() {
-
+    bars.width -= 4
+    console.log(bars.width);
+    player1.positionX += 2
+    player2.positionX += 2
+    topBar.style.width = `${bars.width}px`
+    bottomBar.style.width = `${bars.width}px`
 }
 
 setInterval( () => {
