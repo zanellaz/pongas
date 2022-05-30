@@ -1,26 +1,45 @@
+const bottomBar = document.getElementById("bottomBar")
 const topBar = document.getElementById("topBar")
-let barPositions = {
-    positionX: 50, 
-    positionY: 500
+
+let player1 = {
+    positionX: 500
+}
+let player2 = {
+    positionX: 500
 }
 
 function loadPositions() {
-    topBar.style = "left: " + barPositions.positionX + "px; top: " + barPositions.positionY + "px;"
+    bottomBar.style = "left: " + player1.positionX + "px;"
+    topBar.style = "left: " + player2.positionX + "px;"
 }
-const Action = {
-    goLeft()  { barPositions.positionX -= 10
-        console.log(barPositions.positionX);},
-    goRight() { barPositions.positionX += 10
-        console.log(barPositions.positionX);}
-};
-document.addEventListener('keypress', (event) => {
-    let name = event.key
-    if (name == "a"){
-        Action.goLeft()
-        loadPositions()
+const goLeft = {
+    player1()  { player1.positionX -= 10},
+    player2() { player2.positionX -= 10}
+}
+const goRight = {
+    player1()  { player1.positionX += 10},
+    player2() { player2.positionX += 10}
+}
+const moves = {
+    a() {
+        goLeft["player1"]()
+    },
+    d() {
+        goRight["player1"]()
+    },
+    j() {
+        goLeft["player2"]()
+    },
+    l() {
+        goRight["player2"]()
     }
-    if (name == "d"){
-        Action.goRight()
+}
+document.addEventListener('keydown', isKeyDown)
+
+function isKeyDown(keyDownEvent) {
+    let keyPressed = keyDownEvent.key
+    if (moves[keyPressed]) {
         loadPositions()
+        moves[keyPressed]()
     }
-})
+}

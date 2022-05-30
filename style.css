@@ -6,21 +6,27 @@
 body {
     background-color: black;
 }
-
+p {
+    color: white;
+}
 .bar {
     position: absolute;
-    width: 500px;
+    width: 250px;
     height: 10px;
     background-color: white;
 }
 
 #ball {
-    position: absolute;
     background-color: red;
     width: 10px;
     height: 10px;
     border-radius: 4px;
 }
+#bottomBar {
+    top:600px;
+    background: blue;
+}
 #topBar {
+    top:100px;
     background: blue;
 }
