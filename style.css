@@ -4,14 +4,23 @@
 }
 
 body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: black;
 }
 p {
     color: white;
 }
+#screen {
+    position: relative;
+    border: 2px red solid;
+}
+
 .bar {
-    position: absolute;
-    width: 250px;
+    position: relative;
+    left: 300px;
     height: 10px;
     background-color: white;
 }
@@ -23,10 +32,10 @@ p {
     border-radius: 4px;
 }
 #bottomBar {
-    top:600px;
+    top:540px;
     background: blue;
 }
 #topBar {
-    top:100px;
+    top:30px;
     background: blue;
 }
