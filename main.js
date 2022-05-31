@@ -26,6 +26,11 @@ function restartGame() {
     ballPosition.y = gameScreen.height/2 - 2*ball.width
     ballXvelocity = 0
     ballYvelocity = 0
+    bars.width = 250
+    player1.positionX = gameScreen.width/2 - bars.width/2
+    player2.positionX = gameScreen.width/2 - bars.width/2
+    bars[0].style.width = `${bars.width}px`
+    bars[1].style.width = `${bars.width}px`
 }
 
 let ballPosition = {
@@ -129,14 +134,13 @@ function restartBallvelocity() {
 }
 
 restartGame()
-// restartBallvelocity()
 
 
 function randomizeBall(direction) {
     ballXvelocity = Math.floor(Math.random() * 3 + 2)
     ballYvelocity = Math.floor(Math.random() * 3 + 2)
     ballYvelocity = ballYvelocity * direction
-    if (Math.floor(Math.random * 3) % 2 == 0) {
+    if (Math.floor(Math.random() * 2) % 2 == 0) {
         ballXvelocity = ballXvelocity * -1
     }
 }
@@ -160,19 +164,19 @@ function pointed(player) {
 }
 
 setInterval( function runGame() {
-    if (keys[keyPressed['a']]) {
+    if (keys[keyPressed['a']] || keys[keyPressed['A']]) {
         keys[keyPressed['a']]()
     }
-    if (keys[keyPressed['d']]) {
+    if (keys[keyPressed['d']] || keys[keyPressed['D']]) {
         keys[keyPressed['d']]()
     }
-    if (keys[keyPressed['j']]) {
+    if (keys[keyPressed['j']] || keys[keyPressed['J']]) {
         keys[keyPressed['j']]()
     }
-    if (keys[keyPressed['l']]) {
+    if (keys[keyPressed['l']] || keys[keyPressed['L']]) {
         keys[keyPressed['l']]()
     }
-    if (keys[keyPressed['r']]) {
+    if (keys[keyPressed['r']] || keys[keyPressed['R']]) {
         keys[keyPressed['r']]()
     }
     loadPositions()    
