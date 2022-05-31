@@ -3,9 +3,12 @@ const topBar = document.getElementById("topBar")
 const gameScreen = document.getElementById("screen")
 const ball = document.getElementById("ball")
 const bars = document.getElementsByClassName("bar")
+const player1score = document.getElementById("player1score")
+const player2score = document.getElementById("player2score")
 
 gameScreen.width = 800
 gameScreen.height = 600
+
 bars.width = 250
 bars.height = 10
 
@@ -16,20 +19,32 @@ bottomBar.style = `width:${bars.width}px; height: ${bars.height}px;`
 gameScreen.style.width = `${gameScreen.width}px`
 gameScreen.style.height = `${gameScreen.height}px`
 
+function restartGame() {
+    ballPosition.x = gameScreen.width/2 - ball.width,
+    ballPosition.y = gameScreen.height/2 - 2*ball.width
+    ballXvelocity = 0
+    ballYvelocity = 0
+}
+
 let ballPosition = {
-    x: 500,
-    y: 400
+    x: gameScreen.width/2 - ball.width,
+    y: gameScreen.height/2 - 2*ball.width
 }
 
 let player1 = {
-    positionX: 300,
-    positionY: 540
+    positionX: gameScreen.width/2 - bars.width/2,
+    positionY: 540,
+    points: 0
 }
 
 let player2 = {
-    positionX: 300,
-    positionY: 30
+    positionX: gameScreen.width/2 - bars.width/2,
+    positionY: 30,
+    points: 0
 }
+
+player1score.innerHTML = player1.points
+player2score.innerHTML = player2.points
 
 function loadPositions() {
     bottomBar.style.left = `${player1.positionX}px`
@@ -39,12 +54,12 @@ function loadPositions() {
 const goLeft = {
     player1() {
         if (player1.positionX > 0){
-            player1.positionX -= 5
+            player1.positionX -= 4
         }
     },
     player2() {
         if (player2.positionX > 0){
-            player2.positionX -= 5
+            player2.positionX -= 4
         }
     }
 }
@@ -61,7 +76,7 @@ const goRight = {
     }
 }
 
-const moves = {
+const keys = {
     a() {
         goLeft["player1"]()
     },
@@ -73,6 +88,9 @@ const moves = {
     },
     l() {
         goRight["player2"]()
+    },
+    r() {
+        restartBallvelocity()
     }
 }
 
@@ -80,7 +98,7 @@ let keyPressed = {}
 
 document.addEventListener('keydown',(keyDownEvent) => {
     let keydown = keyDownEvent.key
-    if (moves[keydown]) {
+    if (keys[keydown]) {
         keyPressed[keydown] = `${keydown}` 
     }
 })
@@ -90,53 +108,86 @@ document.addEventListener('keyup',(keyUpEvent) => {
     delete keyPressed[keyup]
 })
 
-let ballXvelocity = 2
-let ballYvelocity = -2
+let ballXvelocity
+let ballYvelocity
 
-function randomizeBall() {
-    ballXvelocity = Math.random() * 4
-    ballYvelocity = ballYvelocity * -1
-    ballXvelocity = Math.random() * 4
-    if (Math.floor(Math.random * 2) % 2 == 0) {
+function restartBallvelocity() {
+    ballXvelocity = Math.random() * 1 + 1
+    ballYvelocity = Math.random() * 1 + 1
+
+    if (Math.floor(Math.random() * 2) % 2 == 0) {
+        ballXvelocity = ballXvelocity * -1
+    }
+    if (Math.floor(Math.random() * 2) % 2 == 0) {
+        ballYvelocity = ballYvelocity * -1
+    }
+}
+
+restartBallvelocity()
+
+
+function randomizeBall(direction) {
+    ballXvelocity = Math.floor(Math.random() * 3 + 2)
+    ballYvelocity = Math.floor(Math.random() * 3 + 2)
+    ballYvelocity = ballYvelocity * direction
+    if (Math.floor(Math.random * 3) % 2 == 0) {
         ballXvelocity = ballXvelocity * -1
     }
 }
 
 function reduceBar() {
-    bars.width -= 4
-    console.log(bars.width);
-    player1.positionX += 2
-    player2.positionX += 2
-    topBar.style.width = `${bars.width}px`
-    bottomBar.style.width = `${bars.width}px`
+    if (bars.width > 50) {
+        bars.width -= 4
+        player1.positionX += 2
+        player2.positionX += 2
+        topBar.style.width = `${bars.width}px`
+        bottomBar.style.width = `${bars.width}px`
+    }
 }
 
-setInterval( () => {
-    if (moves[keyPressed['a']]) {
-        moves[keyPressed['a']]()
+function pointed(player) {
+    player.points += 1
+    player1score.innerHTML = player1.points
+    player2score.innerHTML = player2.points
+    gamePaused = true
+    restartGame()
+}
+
+setInterval( function runGame() {
+    if (keys[keyPressed['a']]) {
+        keys[keyPressed['a']]()
     }
-    if (moves[keyPressed['d']]) {
-        moves[keyPressed['d']]()
+    if (keys[keyPressed['d']]) {
+        keys[keyPressed['d']]()
     }
-    if (moves[keyPressed['j']]) {
-        moves[keyPressed['j']]()
+    if (keys[keyPressed['j']]) {
+        keys[keyPressed['j']]()
     }
-    if (moves[keyPressed['l']]) {
-        moves[keyPressed['l']]()
+    if (keys[keyPressed['l']]) {
+        keys[keyPressed['l']]()
     }
-    loadPositions()
-    ballPosition.x += ballXvelocity
-    ballPosition.y += ballYvelocity
-    ball.style = `left: ${ballPosition.x}px; top: ${ballPosition.y}px;`
+    if (keys[keyPressed['r']]) {
+        keys[keyPressed['r']]()
+    }
+    loadPositions()    
     if (ballPosition.x <= 0 || ballPosition.x >= gameScreen.width - 10){
         ballXvelocity = ballXvelocity * -1
     }
-    if (ballPosition.y == player1.positionY && (ballPosition.x >= player1.positionX && ballPosition.x <= player1.positionX + bars.width)){
-        randomizeBall()
+    if ((ballPosition.y >= player1.positionY && ballPosition.y <= player1.positionY+bars.height) && (ballPosition.x >= player1.positionX && ballPosition.x <= player1.positionX + bars.width)){
+        randomizeBall(-1)
         reduceBar()
     }
-    if (ballPosition.y == player2.positionY && (ballPosition.x >= player2.positionX && ballPosition.x <= player2.positionX + bars.width)){
-        randomizeBall()
+    if ((ballPosition.y >= player2.positionY && ballPosition.y <= player2.positionY+bars.height) && ((ballPosition.x >= player2.positionX) && ballPosition.x <= player2.positionX + bars.width)){
+        randomizeBall(1)
         reduceBar()
     }
+    if (ballPosition.y <= 0) {
+        pointed(player1)
+    }
+    if (ballPosition.y >= gameScreen.height-10) {
+        pointed(player2)
+    }
+    ballPosition.x += ballXvelocity
+    ballPosition.y += ballYvelocity
+    ball.style = `left: ${ballPosition.x}px; top: ${ballPosition.y}px;`
 }, 10)

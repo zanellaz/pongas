@@ -11,8 +11,25 @@ body {
     background-color: black;
 }
 p {
+    margin-right: 80vw;
+    width: 10vh;
+    height: 10vh;
+    position: absolute;
+    font-size: 8vh;
     color: white;
 }
+#advice {
+    width: 100px;
+    text-align: center;
+    font-size: 4vh;
+}
+#player1score {
+    margin-top: 70vh;
+}
+#player2score {
+    margin-bottom: 70vh;
+}
+
 #screen {
     position: relative;
     border: 2px blue solid;
@@ -30,7 +47,7 @@ p {
     background-color: red;
     width: 10px;
     height: 10px;
-    border-radius: 4px;
+    border-radius: 45%;
 }
 #bottomBar {
     top:540px;
