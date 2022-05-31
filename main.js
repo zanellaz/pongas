@@ -6,6 +6,8 @@ const bars = document.getElementsByClassName("bar")
 const player1score = document.getElementById("player1score")
 const player2score = document.getElementById("player2score")
 
+let gamePaused = true
+
 gameScreen.width = 800
 gameScreen.height = 600
 
@@ -90,7 +92,9 @@ const keys = {
         goRight["player2"]()
     },
     r() {
-        restartBallvelocity()
+        if (gamePaused == true) {
+            restartBallvelocity()
+        }
     }
 }
 
@@ -121,9 +125,11 @@ function restartBallvelocity() {
     if (Math.floor(Math.random() * 2) % 2 == 0) {
         ballYvelocity = ballYvelocity * -1
     }
+    gamePaused = false
 }
 
-restartBallvelocity()
+restartGame()
+// restartBallvelocity()
 
 
 function randomizeBall(direction) {
@@ -177,7 +183,7 @@ setInterval( function runGame() {
         randomizeBall(-1)
         reduceBar()
     }
-    if ((ballPosition.y >= player2.positionY && ballPosition.y <= player2.positionY+bars.height) && ((ballPosition.x >= player2.positionX) && ballPosition.x <= player2.positionX + bars.width)){
+    if ((ballPosition.y >= player2.positionY-bars.height && ballPosition.y <= player2.positionY) && ((ballPosition.x >= player2.positionX) && ballPosition.x <= player2.positionX + bars.width)){
         randomizeBall(1)
         reduceBar()
     }
